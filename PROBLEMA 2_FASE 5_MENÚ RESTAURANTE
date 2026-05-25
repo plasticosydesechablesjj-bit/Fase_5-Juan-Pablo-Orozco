@@ -1,0 +1,98 @@
+# =============================================================
+# Fundamentos de Programación - Código: 213022
+# Fase 5 - Evaluación Final POA
+# Problema 2: Gestión de precios de menú de restaurante
+# =============================================================
+
+# -----------------------------------------------------------
+# MATRIZ DEL MENÚ: [Nombre del Producto, Categoría, Precio Base]
+# -----------------------------------------------------------
+menu = [
+    ["Bandeja Paisa",     "Platos Fuertes", 32000],
+    ["Sancocho de Gallina","Platos Fuertes", 28000],
+    ["Limonada de Coco",  "Bebidas",        12000],
+    ["Jugo de Lulo",      "Bebidas",         8000],
+    ["Torta de Chocolate","Postres",        15000],
+    ["Flan de Vainilla",  "Postres",         9000],
+    ["Ajiaco Bogotano",   "Platos Fuertes", 35000],
+    ["Agua Mineral",      "Bebidas",         5000],
+]
+
+# -----------------------------------------------------------
+# PARÁMETROS DE LA PROMOCIÓN
+# -----------------------------------------------------------
+CATEGORIA_OBJETIVO = "Platos Fuertes"  # Categoría que aplica al descuento
+UMBRAL_PRECIO      = 25000             # Precio mínimo para aplicar descuento
+DESCUENTO          = 0.15              # 15% de descuento
+
+
+# -----------------------------------------------------------
+# MÓDULO (FUNCIÓN): Calcula el precio final de un producto
+# Parámetros:
+#   categoria   -> categoría del producto
+#   precio_base -> precio original del producto
+# Retorna:
+#   precio_final -> precio con descuento o precio base según condición
+# -----------------------------------------------------------
+def calcular_precio_final(categoria, precio_base):
+    """
+    Aplica un 15% de descuento si el producto pertenece a la
+    categoría objetivo Y su precio base supera el umbral definido.
+    De lo contrario, conserva el precio base.
+    """
+    if categoria == CATEGORIA_OBJETIVO and precio_base > UMBRAL_PRECIO:
+        precio_final = precio_base * (1 - DESCUENTO)
+    else:
+        precio_final = precio_base
+    return precio_final
+
+
+# -----------------------------------------------------------
+# MÓDULO (PROCEDIMIENTO): Muestra el encabezado de la tabla
+# -----------------------------------------------------------
+def mostrar_encabezado():
+    print("=" * 70)
+    print(f"{'RESTAURANTE - MENÚ CON PROMOCIONES':^70}")
+    print("=" * 70)
+    print(f"  Promoción: {int(DESCUENTO * 100)}% de descuento en '{CATEGORIA_OBJETIVO}'")
+    print(f"  Condición: Precio base mayor a ${UMBRAL_PRECIO:,.0f}")
+    print("=" * 70)
+    print(f"  {'PRODUCTO':<25} {'CATEGORÍA':<18} {'PRECIO BASE':>12} {'PRECIO FINAL':>12}")
+    print("-" * 70)
+
+
+# -----------------------------------------------------------
+# MÓDULO (PROCEDIMIENTO): Muestra cada producto con sus precios
+# -----------------------------------------------------------
+def mostrar_productos(menu):
+    for producto in menu:
+        nombre      = producto[0]
+        categoria   = producto[1]
+        precio_base = producto[2]
+
+        precio_final = calcular_precio_final(categoria, precio_base)
+
+        # Indicador visual si se aplicó descuento
+        if precio_final < precio_base:
+            indicador = " ✔ -15%"
+        else:
+            indicador = ""
+
+        print(f"  {nombre:<25} {categoria:<18} ${precio_base:>10,.0f} ${precio_final:>10,.0f}{indicador}")
+
+    print("=" * 70)
+
+
+# -----------------------------------------------------------
+# PROGRAMA PRINCIPAL
+# -----------------------------------------------------------
+def main():
+    mostrar_encabezado()
+    mostrar_productos(menu)
+    print("\n  ✔ = Descuento del 15% aplicado")
+    print("=" * 70)
+
+
+# Punto de entrada
+if __name__ == "__main__":
+    main()
